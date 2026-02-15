@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>老兵维修铺 - 快捷入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft YaHei", sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border: 4px solid #8b0000;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 32px;
+            color: #1a472a;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .info-box {
+            background: #f8f9fa;
+            border-left: 5px solid #1a472a;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            font-size: 20px;
+            color: #1a472a;
+            margin-bottom: 15px;
+        }
+
+        .info-box p {
+            font-size: 16px;
+            color: #333;
+            line-height: 1.8;
+            margin-bottom: 10px;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .big-btn {
+            padding: 20px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .big-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .primary-btn {
+            background: linear-gradient(135deg, #1a472a 0%, #2d5016 100%);
+            color: #ffd700;
+            border: 3px solid #8b0000;
+        }
+
+        .secondary-btn {
+            background: white;
+            color: #1a472a;
+            border: 3px solid #1a472a;
+        }
+
+        .setup-section {
+            background: #fff3cd;
+            border: 3px solid #ffc107;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .setup-section h3 {
+            color: #856404;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .setup-section p {
+            color: #856404;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .setup-section input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        .save-btn {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="icon">🎖️</div>
+        <div class="header">
+            <h1>老兵维修铺</h1>
+            <p class="subtitle">维修记录管理</p>
+        </div>
+
+        <div id="mainContent">
+            <div class="info-box">
+                <h3>📋 查看维修记录</h3>
+                <p>所有邻居提交的维修申请都会自动保存到Google表格中。</p>
+                <p>点击下方按钮可以直接打开表格查看。</p>
+            </div>
+
+            <div class="button-group">
+                <a href="#" id="openSheetsBtn" class="big-btn primary-btn" onclick="openSheets()">
+                    📊 打开维修记录表格
+                </a>
+                <button class="big-btn secondary-btn" onclick="showSetup()">
+                    ⚙️ 设置表格链接
+                </button>
+            </div>
+
+            <div class="info-box" style="margin-top: 30px;">
+                <h3>💡 使用提示</h3>
+                <p>• 首次使用请先点击"设置表格链接"</p>
+                <p>• 在手机上可以用Google Sheets App查看</p>
+                <p>• 可以将此页面添加到手机桌面</p>
+            </div>
+        </div>
+
+        <div id="setupSection" class="setup-section hidden">
+            <h3>⚙️ 设置Google Sheets链接</h3>
+            <p>请输入你的Google Sheets表格链接：</p>
+            <input type="url" id="sheetsUrl" placeholder="https://docs.google.com/spreadsheets/d/...">
+            <p style="margin-top: 10px; font-size: 12px;">
+                💡 在Google Sheets中点击右上角"共享"，复制链接粘贴到这里
+            </p>
+            <button class="save-btn" onclick="saveUrl()">保存链接</button>
+            <button class="save-btn" style="background: #6c757d; margin-top: 10px;" onclick="hideSetup()">
+                取消
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'sheets_url';
+
+        // 页面加载时检查是否已保存链接
+        window.onload = function() {
+            const savedUrl = localStorage.getItem(STORAGE_KEY);
+            if (savedUrl) {
+                document.getElementById('openSheetsBtn').href = savedUrl;
+            } else {
+                // 如果没有保存链接，显示设置提示
+                showSetup();
+            }
+        };
+
+        function openSheets() {
+            const savedUrl = localStorage.getItem(STORAGE_KEY);
+            if (!savedUrl) {
+                alert('请先设置Google Sheets链接！');
+                showSetup();
+                return false;
+            }
+            window.open(savedUrl, '_blank');
+            return false;
+        }
+
+        function showSetup() {
+            document.getElementById('mainContent').classList.add('hidden');
+            document.getElementById('setupSection').classList.remove('hidden');
+            
+            // 如果已有保存的链接，显示在输入框
+            const savedUrl = localStorage.getItem(STORAGE_KEY);
+            if (savedUrl) {
+                document.getElementById('sheetsUrl').value = savedUrl;
+            }
+        }
+
+        function hideSetup() {
+            document.getElementById('mainContent').classList.remove('hidden');
+            document.getElementById('setupSection').classList.add('hidden');
+        }
+
+        function saveUrl() {
+            const url = document.getElementById('sheetsUrl').value.trim();
+            
+            if (!url) {
+                alert('请输入表格链接！');
+                return;
+            }
+            
+            if (!url.includes('docs.google.com/spreadsheets')) {
+                alert('请输入正确的Google Sheets链接！');
+                return;
+            }
+            
+            localStorage.setItem(STORAGE_KEY, url);
+            document.getElementById('openSheetsBtn').href = url;
+            
+            alert('✅ 链接已保存！');
+            hideSetup();
+        }
+
+        // 添加到主屏幕提示（移动端）
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                // 可以在这里添加PWA功能
+            });
+        }
+    </script>
+</body>
+</html>
